@@ -2,7 +2,7 @@
 
 ## Core decisions
 - Framework: **Next.js App Router + React + TypeScript**, current stable compatible releases at implementation time.
-- 3D: **Three.js + @react-three/fiber + @react-three/drei** for laptop, camera and floating objects.
+- 3D: **CSS 3D transforms** for the laptop (decision 2026-10-26). The screen is real HTML, so it stays sharp, needs no WebGL fallback and ships no Three.js payload. Reintroduce Three.js/R3F only for content that genuinely needs a 3D renderer.
 - Scroll/cinematic animation: **GSAP + ScrollTrigger**. Prefer one authoritative scroll timeline rather than overlapping competing animation systems.
 - Styling: **CSS Modules + CSS custom properties**; global design tokens for spacing, typography, colors and motion. Light mode first.
 - AI: **OpenAI API** via a Next.js server route; never call the model directly from the browser with a secret API key. Use the supported official SDK and a cost-conscious small model configurable via environment variable.

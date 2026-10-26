@@ -25,9 +25,9 @@ If documents conflict, report the conflict briefly and ask only if it blocks the
 - Do not spin up subagents, browser automation, MCP servers, or multi-agent reviews unless the current task benefits demonstrably and the user approves extra complexity.
 
 ## Architecture and implementation principles
-- Follow `TECH_SPEC.md` for the agreed stack (Next.js, TypeScript, GSAP/ScrollTrigger, React Three Fiber/Three.js/Drei, and server-side AI integration as applicable).
+- Follow `TECH_SPEC.md` for the agreed stack (Next.js, TypeScript, GSAP/ScrollTrigger, and server-side AI integration as applicable).
 - Keep the content semantic, keyboard-accessible, responsive and readable even without JavaScript-powered animations.
-- Use GSAP for orchestrated scroll/timeline animation and Three/R3F only for genuinely 3D content; keep ordinary text and controls as HTML/CSS.
+- Use GSAP for orchestrated scroll/timeline animation and CSS 3D for the laptop (Three/R3F only if a feature genuinely needs WebGL); keep ordinary text and controls as HTML/CSS.
 - Respect `prefers-reduced-motion`, and provide static/fallback visuals if WebGL is unavailable or performance is poor.
 - Avoid animation-driven layout shifts; prefer transforms and opacity, clean up listeners/timelines, and load heavy 3D assets only where needed.
 - Prioritize quick access to projects, skills, contact information and LinkedIn without requiring the visitor to complete the scroll story.

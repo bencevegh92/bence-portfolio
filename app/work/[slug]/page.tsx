@@ -2,16 +2,47 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { projects } from "@/content/projects";
-import styles from "@/components/work/launcher.module.css";
+import { profile } from "@/content/profile";
+import { Footer, Header } from "@/components/layout/header";
+import { ProjectIcon } from "@/components/work/work-section";
+import styles from "@/components/work/case-study.module.css";
 
-export function generateStaticParams() { return projects.map(({ slug }) => ({ slug })); }
-export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
-  const { slug } = await params;
-  return { title: `${projects.find(project => project.slug === slug)?.title ?? "Project"} — Bence Végh` };
+type Params = { params: Promise<{ slug: string }> };
+
+export const dynamicParams = false;
+
+export function generateStaticParams() {
+  return projects.map(({ slug }) => ({ slug }));
 }
-export default async function CaseStudyPlaceholder({ params }: { params: Promise<{ slug: string }> }) {
+
+export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { slug } = await params;
-  const project = projects.find(project => project.slug === slug);
+  const project = projects.find(item => item.slug === slug);
+  return { title: `${project?.title ?? "Project"} — ${profile.name}` };
+}
+
+export default async function CaseStudy({ params }: Params) {
+  const { slug } = await params;
+  const project = projects.find(item => item.slug === slug);
   if (!project) notFound();
-  return <main className={styles.placeholder}><Link href="/#work">← Back to selected experience</Link><p className="eyebrow">Case study coming soon</p><h1>{project.title}</h1><p>{project.description}</p><p>This page reserves a future case study. Any demonstration visuals will be fictional, inspired by genuine experience in this domain. Detailed project facts will be added only after approval.</p><Link href="/#contact">Contact information</Link></main>;
+
+  return (
+    <>
+      <Header />
+      <main id="main" className={`page ${styles.page}`} data-accent={project.accent}>
+        <Link href="/#work" className={styles.back}>Back to selected work</Link>
+        <span className={styles.icon} aria-hidden="true"><ProjectIcon icon={project.icon} /></span>
+        <h1 className={styles.title}>{project.title}</h1>
+        <p className={styles.concept}>{project.concept}</p>
+        <div className={styles.note}>
+          <h2>Case study in progress</h2>
+          <p>
+            This page will host an interactive demo and a write-up of the decisions behind it. The demo is an
+            original, fictional app. {project.inspiredBy}
+          </p>
+        </div>
+      </main>
+      <Footer />
+    </>
+  );
 }

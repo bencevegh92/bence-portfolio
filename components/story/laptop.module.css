@@ -1,0 +1,72 @@
+/* Geometry is in cqw of .device so the 3D model scales as one unit.
+   Rig width 84cqw; lid 16:10.4 (52.5cqw tall); base 56cqw deep. */
+.device {
+  container-type: inline-size;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1.12;
+  perspective: 2400px;
+  perspective-origin: 50% 0%;
+}
+.glow {
+  position: absolute; inset: 8% 4% 4%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, #c9d3fa 0%, #e3defa66 55%, transparent 100%);
+  filter: blur(8px);
+  pointer-events: none;
+}
+.camera, .parallax, .rig, .lid { transform-style: preserve-3d; }
+.camera { position: absolute; inset: 0; transform: rotateX(-14deg); transform-origin: 50% 60%; }
+.parallax { position: absolute; inset: 0; }
+.rig {
+  position: absolute; left: 8cqw; top: 8cqw;
+  width: 84cqw; height: 52.5cqw;
+  transform: rotateY(-22deg);
+  transform-origin: 50% 100% 28cqw;
+}
+
+.lid {
+  position: absolute; inset: 0;
+  transform-origin: 50% 100%;
+  transform: rotateX(24deg);
+  animation: open 1.6s .25s cubic-bezier(.3, .7, .15, 1) both;
+}
+@keyframes open { from { transform: rotateX(-86deg); } }
+.lidFront, .lidBack { position: absolute; inset: 0; backface-visibility: hidden; border-radius: 2.4cqw 2.4cqw .8cqw .8cqw; }
+.lidFront {
+  padding: 1.7cqw 1.7cqw 2.6cqw;
+  background: #11141b;
+  box-shadow: inset 0 0 0 .25cqw #3a404c;
+}
+.lidFront > div { height: 100%; aspect-ratio: auto; border-radius: .6cqw; }
+.lidBack {
+  transform: rotateY(180deg);
+  background: linear-gradient(160deg, #e0e4ea, #c3c9d3);
+  box-shadow: inset 0 0 0 .2cqw #b3bac6;
+}
+
+.base {
+  position: absolute; left: 0; right: 0; top: 100%;
+  height: 56cqw;
+  transform-origin: 50% 0;
+  transform: rotateX(90deg);
+  border-radius: .8cqw .8cqw 2.4cqw 2.4cqw;
+  background: linear-gradient(180deg, #cdd2da, #dde1e7 30%, #d3d8df);
+  box-shadow: 0 2cqw 8cqw 1cqw #1d2a4a26;
+  transform-style: preserve-3d;
+}
+.keys {
+  position: absolute; left: 9%; right: 9%; top: 9%;
+  display: grid; grid-template-columns: repeat(14, 1fr); gap: .55cqw;
+}
+.keys i { height: 3.4cqw; border-radius: .45cqw; background: #2b313b; box-shadow: inset 0 -.2cqw 0 #1a1e25; }
+.trackpad {
+  position: absolute; left: 33%; right: 33%; bottom: 8%; height: 19cqw;
+  border-radius: 1.2cqw; background: #d6dae1; box-shadow: inset 0 0 0 .15cqw #bcc3cd;
+}
+.baseFront {
+  position: absolute; left: 1cqw; right: 1cqw; top: 100%; height: 1.6cqw;
+  transform-origin: 50% 0; transform: rotateX(-90deg);
+  border-radius: 0 0 1.2cqw 1.2cqw;
+  background: linear-gradient(90deg, #a9b0bb, #c3c9d1 50%, #a9b0bb);
+}

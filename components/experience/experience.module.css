@@ -1,0 +1,25 @@
+.timeline { list-style: none; margin: 0; padding: 0; }
+.role {
+  display: grid; gap: .75rem 3rem;
+  padding-block: 2rem; border-top: 1px solid var(--line);
+}
+.role:last-child { border-bottom: 1px solid var(--line); }
+.when { display: flex; flex-wrap: wrap; gap: .25rem 1rem; color: var(--muted); font-size: .9rem; }
+.period { color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; }
+.what { display: grid; gap: .5rem; max-width: 46rem; }
+.what h3 { font: 600 clamp(1.3rem, 2vw, 1.6rem)/1.2 var(--font-display); letter-spacing: -.02em; }
+.context { color: var(--accent); font-weight: 500; }
+.highlights { margin: .5rem 0 0; padding-left: 1.1rem; display: grid; gap: .4rem; color: var(--ink-2); }
+.highlights li::marker { color: var(--muted); }
+.stack { list-style: none; margin: .75rem 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: .4rem; }
+.stack li { padding: .2rem .65rem; border-radius: 999px; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); font-size: .8rem; color: var(--ink-2); }
+
+.learning { display: grid; gap: .75rem; margin-top: 2.5rem; }
+.learning h3 { font-size: 1rem; }
+.learning ul { margin: 0; padding-left: 1.1rem; display: grid; gap: .3rem; color: var(--muted); }
+
+@media (min-width: 800px) {
+  .role { grid-template-columns: 11rem minmax(0, 1fr); }
+  .when { flex-direction: column; }
+  .learning { grid-template-columns: 11rem minmax(0, 1fr); gap: 3rem; }
+}

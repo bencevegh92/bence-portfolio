@@ -1,0 +1,20 @@
+.strengths {
+  list-style: none; margin: 0; padding: 0;
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr));
+  gap: 2.5rem 3rem;
+}
+.strengths li { display: grid; gap: .6rem; align-content: start; padding-top: 1.25rem; border-top: 2px solid var(--ink); }
+.strengths h3 { font: 600 1.35rem/1.2 var(--font-display); letter-spacing: -.02em; }
+.strengths p { color: var(--ink-2); }
+.strengths .evidence { color: var(--muted); font-size: .9rem; }
+
+.skills { margin: clamp(3rem, 7vw, 5rem) 0 0; }
+.group { display: grid; gap: .6rem 3rem; padding-block: 1.1rem; border-top: 1px solid var(--line); }
+.group:last-child { border-bottom: 1px solid var(--line); }
+.group dt { font-weight: 600; }
+.group dd { margin: 0; }
+.group ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: .35rem 1.4rem; color: var(--ink-2); }
+
+@media (min-width: 800px) {
+  .group { grid-template-columns: 11rem minmax(0, 1fr); align-items: baseline; }
+}
