@@ -1,0 +1,13 @@
+node_modules/
+.next/
+out/
+coverage/
+*.tsbuildinfo
+.env*
+!.env.example
+npm-debug.log*
+.DS_Store
+
+# Private reference documents — never commit
+veghbenceCV.pdf
+*CV*.pdf

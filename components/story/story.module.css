@@ -1,0 +1,48 @@
+.story { position: relative; }
+.stages { margin-top: 2.5rem; }
+.label { font-size: .75rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.stages ol { list-style: none; padding: 0; margin: 1.3rem 0; }
+.stages li { padding: 1.2rem 0; border-top: 1px solid var(--border); }
+.stages h3 { font-size: clamp(1.4rem, 2.6vw, 2.2rem); margin-top: .6rem; line-height: 1.15; }
+.stages li p { color: var(--muted); font-size: .9rem; line-height: 1.6; max-width: 30rem; }
+.number { font-size: .7rem; color: var(--accent); letter-spacing: .08em; }
+.disclosure { font-size: .7rem; color: var(--muted); line-height: 1.7; }
+.track { display: none; }
+.story[data-enhanced] .sticky > section { min-height: calc(100svh - 160px); padding-block: 1rem; grid-template-columns: 1.05fr 1.2fr; gap: 2rem; }
+.story:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+.controls { display: none; }
+.story[data-enhanced] .controls { display: block; padding-block: .5rem 1rem; }
+.controls p { font-size: .72rem; color: var(--muted); line-height: 1.6; margin: 0 0 .5rem; }
+.controls > div { display: flex; align-items: center; gap: 1rem; }
+.controls button { background: var(--surface); color: var(--text); border: 1px solid var(--border); border-radius: .4rem; min-height: 2.75rem; padding: .6rem 1rem; cursor: pointer; }
+.controls button:disabled { opacity: .45; cursor: default; }
+.controls a { font-size: .8rem; }
+.controls .skipStory { color: white; background: var(--text); border-radius: .4rem; padding: .8rem 1rem; text-decoration: none; }
+.srOnly { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.story[data-enhanced] h1 { font-size: clamp(2.8rem, 4vw, 4rem); }
+.story[data-enhanced] h1 { margin-block: .8rem; }
+.story[data-enhanced] p[data-intro-reveal] { font-size: .95rem; line-height: 1.5; margin-block: .5rem; }
+.story[data-enhanced] .stages { margin-top: 0; align-self: center; }
+.story[data-enhanced] .stages ol { position: relative; min-height: 18rem; }
+.story[data-enhanced] .stages h3 { font-size: clamp(2.3rem, 3.8vw, 3.7rem); letter-spacing: -.045em; }
+.story[data-enhanced] .stages li p { font-size: 1rem; }
+.story[data-enhanced] .stages li { position: absolute; inset: 0; border: 0; padding-block: .7rem; }
+.story[data-enhanced] .track { display: block; height: 2px; background: var(--border); max-width: 15rem; }
+.track span { display: block; height: 100%; background: var(--accent); transform: scaleX(0); transform-origin: left; }
+.story[data-enhanced] [data-story-opening], .story[data-enhanced] [data-stage-panel] { grid-area: 1 / 1; }
+.story[data-enhanced] [data-story-opening] { align-self: center; }
+.visuals { position: absolute; inset: 0; z-index: 2; pointer-events: none; visibility: hidden; }
+[data-scene-state="ready"] .visuals, [data-scene-state="fallback"] .visuals { visibility: visible; }
+.visual { position: absolute; width: 10.5rem; max-width: 33%; text-align: center; transform-origin: center; --approach: 7px; }
+.visual0 { left: -1%; top: .5rem; }
+.visual1 { left: 34%; top: -.4rem; }
+.visual2 { right: -1%; top: .5rem; }
+.visual3 { left: -1%; bottom: -1.3rem; --approach: -7px; }
+.visual4 { left: 34%; bottom: -1.5rem; --approach: -7px; }
+.visual5 { right: -1%; bottom: -1.3rem; --approach: -7px; }
+.illustration { position: relative; width: 100%; aspect-ratio: 3 / 2; margin-inline: auto; transform: translateY(calc(var(--focus, 0) * var(--approach))) scale(calc(.82 + var(--focus, 0) * .43)); }
+.illustration svg { display: block; width: 100%; height: 100%; overflow: visible; filter: saturate(calc(.65 + var(--focus, 0) * .7)) contrast(calc(.9 + var(--focus, 0) * .4)) drop-shadow(0 calc(5px + var(--focus, 0) * 10px) calc(4px + var(--focus, 0) * 4px) rgb(48 69 107 / calc(.05 + var(--focus, 0) * .15))); }
+.visualLabel { display: inline-block; font-size: .75rem; font-weight: 500; color: #526785; letter-spacing: .03em; margin-top: .55rem; transform: translateY(calc(var(--focus, 0) * 6px)); }
+@media (max-width: 800px) { .visual { width: 7rem; } .visual0, .visual2 { top: .2rem; } .visual1 { top: -.3rem; } .visual3, .visual5 { bottom: .2rem; } .visual4 { bottom: -.3rem; } }
+@media (max-width: 540px) { .visual { width: 5.8rem; } .visualLabel { font-size: .62rem; margin-top: .25rem; } }
+@media (prefers-reduced-motion: reduce) { .visuals { visibility: visible; } .illustration, .visualLabel { transform: none; } }
