@@ -21,7 +21,9 @@ export const profile = {
 export const contact = {
   email: "veghbence92@gmail.com",
   linkedin: "https://www.linkedin.com/in/bence-v%C3%A9gh-794a2716a",
-  cv: "/bence-vegh-cv.pdf",
+  // Hosted on Google Drive so the file can be updated without a deploy
+  // (replace it via Drive "Manage versions" to keep the same ID).
+  cv: "https://drive.google.com/uc?export=download&id=13TvwYJfL_k3QF7HZdunSn48Vs-Xo9IsS",
 };
 
 export const languages = ["Hungarian (native)", "English (B2, upper-intermediate)"];

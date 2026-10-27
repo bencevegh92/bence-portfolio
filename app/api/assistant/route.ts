@@ -16,7 +16,7 @@ const LIMITS = {
   chars: 600, // per user message
   maxTokens: 2048, // includes the model's (low-effort) thinking
 };
-const allow = createRateLimiter({ limit: 10, windowMs: 20 * 60_000 }); // 10 questions per 20 minutes per IP
+const allow = createRateLimiter({ limit: 10, windowMs: 20 * 60_000, prefix: "assistant" }); // 10 questions per 20 minutes per IP
 
 const UNAVAILABLE = `The assistant isn’t available right now. You can reach ${profile.name} directly at ${contact.email}.`;
 
@@ -68,7 +68,7 @@ export async function POST(request: Request) {
   if (origin && new URL(origin).host !== request.headers.get("host")) return json(403, "Forbidden.");
 
   const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "local";
-  if (!allow(ip)) return json(429, `That’s a lot of questions for now. Please try again in a few minutes, or email ${contact.email}.`);
+  if (!(await allow(ip))) return json(429, `That’s a lot of questions for now. Please try again in a few minutes, or email ${contact.email}.`);
 
   let messages: ChatMessage[] | null = null;
   try {
