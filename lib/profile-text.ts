@@ -22,7 +22,7 @@ export function profileAsText() {
     "## Contact",
     `- Email: ${contact.email}`,
     `- LinkedIn: ${decodeURI(contact.linkedin)}`,
-    `- CV (PDF): ${siteUrl}${contact.cv}`,
+    `- CV (PDF): ${contact.cv}`,
     "",
     "## Pages",
     `- [Portfolio home](${siteUrl}/): introduction, process, experience, expertise, background and contact`,

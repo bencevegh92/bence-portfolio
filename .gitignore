@@ -11,3 +11,6 @@ npm-debug.log*
 # Private reference documents — never commit
 veghbenceCV.pdf
 *CV*.pdf
+
+.vercel
+.env*

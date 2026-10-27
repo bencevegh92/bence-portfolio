@@ -23,7 +23,7 @@ export default function Resume() {
           <ul className={styles.contact}>
             <li><a href={`mailto:${contact.email}`}>{contact.email}</a></li>
             <li><a href={contact.linkedin} rel="me noopener">LinkedIn</a></li>
-            <li><a href={contact.cv} download="Bence-Vegh-CV.pdf">Download PDF</a></li>
+            <li><a href={contact.cv}>Download PDF</a></li>
           </ul>
         </header>
 

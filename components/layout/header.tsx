@@ -28,7 +28,7 @@ export function Header() {
               {links.map(link => <li key={link.href} data-secondary={link.secondary || undefined}><Link href={`/${link.href}`}>{link.label}</Link></li>)}
             </ul>
           </nav>
-          <a className={styles.cv} href={contact.cv} download="Bence-Vegh-CV.pdf">
+          <a className={styles.cv} href={contact.cv}>
             <svg viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M10 3.5v9M6 9l4 4 4-4M4.5 16.5h11" /></svg>
             CV<span className="srOnly"> (PDF download)</span>
           </a>

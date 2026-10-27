@@ -27,7 +27,7 @@ export function Story() {
             <div className={styles.actions}>
               <a className="button" href="#experience">See my experience</a>
               <a className="button buttonQuiet" href="#contact">Get in touch</a>
-              <a className={styles.cvLink} href={contact.cv} download="Bence-Vegh-CV.pdf">Download CV</a>
+              <a className={styles.cvLink} href={contact.cv}>Download CV</a>
             </div>
             <p className={styles.location}>{profile.location}</p>
           </div>

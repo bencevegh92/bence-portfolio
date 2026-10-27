@@ -42,7 +42,7 @@ export function Contact() {
               <strong>Connect with me<span className="srOnly"> (opens in a new tab)</span></strong>
               <svg className={styles.arrowOut} viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M7 13L13 7M8 7h5v5" /></svg>
             </a>
-            <a href={contact.cv} className={styles.card} download="Bence-Vegh-CV.pdf">
+            <a href={contact.cv} className={styles.card}>
               <span className={styles.label}>Résumé</span>
               <strong>Download CV (PDF)</strong>
               <svg className={styles.arrowDown} viewBox="0 0 20 20" aria-hidden="true" focusable="false"><path d="M10 4v10M5.5 9.5L10 14l4.5-4.5M5 16.5h10" /></svg>
