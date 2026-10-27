@@ -1,25 +1,116 @@
-.timeline { list-style: none; margin: 0; padding: 0; }
-.role {
-  display: grid; gap: .75rem 3rem;
-  padding-block: 2rem; border-top: 1px solid var(--line);
+/* ---------- Career at a glance ---------- */
+.overview {
+  margin-bottom: clamp(3rem, 7vw, 5rem); padding: clamp(1.25rem, 3vw, 2rem);
+  border-radius: 1.5rem; background: var(--surface); box-shadow: 0 0 0 1px var(--line);
 }
-.role:last-child { border-bottom: 1px solid var(--line); }
-.when { display: flex; flex-wrap: wrap; gap: .25rem 1rem; color: var(--muted); font-size: .9rem; }
-.period { color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; }
-.what { display: grid; gap: .5rem; max-width: 46rem; }
-.what h3 { font: 600 clamp(1.3rem, 2vw, 1.6rem)/1.2 var(--font-display); letter-spacing: -.02em; }
-.context { color: var(--accent); font-weight: 500; }
-.highlights { margin: .5rem 0 0; padding-left: 1.1rem; display: grid; gap: .4rem; color: var(--ink-2); }
-.highlights li::marker { color: var(--muted); }
-.stack { list-style: none; margin: .75rem 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: .4rem; }
-.stack li { padding: .2rem .65rem; border-radius: 999px; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); font-size: .8rem; color: var(--ink-2); }
+.overviewTitle { margin-bottom: 1.25rem; font-weight: 600; }
+/* Year columns run the full height; roles sit above the axis, a role that
+   overlaps them sits mirrored below it. */
+.chart {
+  position: relative;
+  background: repeating-linear-gradient(90deg, color-mix(in srgb, var(--line) 70%, transparent) 0 1px, transparent 1px calc(100% / var(--years)));
+  box-shadow: inset -1px 0 0 color-mix(in srgb, var(--line) 70%, transparent);
+}
+.years { position: relative; height: 1.9rem; background: var(--surface); }
+.year { position: absolute; top: .1rem; translate: -50% 0; font-size: .78rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.yearShort { display: none; }
 
-.learning { display: grid; gap: .75rem; margin-top: 2.5rem; }
+.lane { position: relative; height: 4.4rem; margin: 0; padding: 0; list-style: none; }
+.bar { position: absolute; left: var(--from); width: calc(var(--to) - var(--from) - 4px); top: .25rem; bottom: .75rem; }
+.below .bar { top: .75rem; bottom: .25rem; }
+/* A stem ties each role to its start on the axis. */
+.bar::after { content: ""; position: absolute; left: .9rem; bottom: -.75rem; width: 2px; height: .75rem; background: var(--tone); }
+.below .bar::after { bottom: auto; top: -.75rem; }
+.bar a {
+  display: grid; align-content: center; gap: .1rem; height: 100%; padding: 0 .9rem; overflow: hidden;
+  border-radius: .9rem; text-decoration: none;
+  background: linear-gradient(135deg, var(--tone-soft), color-mix(in srgb, var(--tone) 20%, white));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--tone) 30%, transparent);
+  transition: transform .25s var(--ease-out), box-shadow .25s;
+}
+.bar a:hover { transform: translateY(-2px); box-shadow: inset 0 0 0 1px var(--tone), 0 14px 26px -18px var(--tone); }
+.barName { display: flex; align-items: center; gap: .45rem; min-width: 0; font-size: .925rem; font-weight: 600; white-space: nowrap; }
+.barName span { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.barName i { flex: none; width: .55rem; height: .55rem; border-radius: 50%; background: var(--tone); }
+.barMeta { font-size: .78rem; color: var(--muted); white-space: nowrap; font-variant-numeric: tabular-nums; }
+
+.axis { display: block; height: 2px; border-radius: 2px; background: var(--ink); opacity: .85; transform-origin: left; }
+
+/* ---------- Timeline ---------- */
+.timelineWrap { position: relative; }
+.rail { position: absolute; left: 1.25rem; top: 2.6rem; bottom: 0; width: 2px; border-radius: 2px; background: var(--line); }
+.railFill { display: block; height: 100%; border-radius: inherit; background: linear-gradient(var(--accent), var(--lilac)); transform-origin: top; }
+.timeline { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.25rem; }
+.role { position: relative; padding-left: 3.5rem; }
+.dot {
+  position: absolute; left: calc(1.25rem - .5rem + 1px); top: 2.1rem;
+  width: 1rem; height: 1rem; border-radius: 50%;
+  background: var(--tone); box-shadow: 0 0 0 4px var(--paper), 0 0 0 5px var(--tone);
+  transition: background-color .35s, box-shadow .35s, transform .35s var(--ease-out);
+}
+[data-motion] .role:not([data-reached]) .dot { background: var(--paper); box-shadow: 0 0 0 4px var(--paper), 0 0 0 5px var(--line); }
+[data-motion] .role[data-active] .dot { transform: scale(1.3); }
+
+.card {
+  padding: clamp(1.25rem, 3vw, 2rem); border-radius: 1.5rem;
+  background: var(--surface); box-shadow: 0 0 0 1px var(--line);
+  transition: box-shadow .45s var(--ease-out);
+}
+[data-motion] .role[data-active] .card {
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--tone) 50%, transparent),
+              0 28px 60px -32px color-mix(in srgb, var(--tone) 70%, transparent);
+}
+.cardHead { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: .5rem 1rem; align-items: center; }
+.badge { width: 3rem; height: 3rem; padding: .65rem; border-radius: .9rem; background: var(--tone-soft); color: var(--tone); }
+.cardHead h3 { font: 600 clamp(1.25rem, 2vw, 1.55rem)/1.15 var(--font-display); letter-spacing: -.02em; }
+.company { color: var(--muted); }
+.period { display: grid; justify-items: end; font-weight: 600; font-variant-numeric: tabular-nums; }
+.period span { font-weight: 400; font-size: .85rem; color: var(--muted); }
+.context { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem .75rem; margin-top: 1.25rem; color: var(--ink-2); }
+.domain {
+  display: inline-flex; align-items: center; gap: .4rem; padding: .2rem .7rem; border-radius: 999px;
+  background: var(--tone-soft); font-size: .8rem; font-weight: 600;
+}
+.domain::before { content: ""; width: .45rem; height: .45rem; border-radius: 50%; background: var(--tone); }
+.highlights { list-style: none; margin: 1.1rem 0 0; padding: 0; display: grid; gap: .55rem; color: var(--ink-2); max-width: 50rem; }
+.highlights li { display: grid; grid-template-columns: .9rem 1fr; gap: .5rem; }
+.highlights li::before { content: ""; width: .4rem; height: .4rem; margin-top: .6em; border-radius: .1rem; background: var(--tone); rotate: 45deg; }
+.stack { list-style: none; margin: 1.25rem 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: .4rem; }
+.stack li { padding: .2rem .65rem; border-radius: 999px; background: var(--paper); box-shadow: inset 0 0 0 1px var(--line); font-size: .8rem; color: var(--ink-2); }
+
+/* Open end: the line continues, dashed, into what comes next. */
+.next { position: relative; padding: 2.75rem 0 0 3.5rem; color: var(--ink-2); }
+.next::before {
+  content: ""; position: absolute; left: 1.25rem; top: 0; height: 3.4rem; width: 2px;
+  background: repeating-linear-gradient(var(--line) 0 6px, transparent 6px 12px);
+}
+.nextDot {
+  position: absolute; left: calc(1.25rem - .5rem + 1px); top: 3.1rem; width: 1rem; height: 1rem;
+  border-radius: 50%; background: var(--paper); box-shadow: 0 0 0 2px var(--accent);
+}
+.next p { padding-top: .1rem; }
+.next a { margin-left: .25rem; color: var(--accent); font-weight: 600; }
+
+/* ---------- Training ---------- */
+.learning { display: grid; gap: 1rem; margin-top: clamp(2.5rem, 6vw, 4rem); }
 .learning h3 { font-size: 1rem; }
-.learning ul { margin: 0; padding-left: 1.1rem; display: grid; gap: .3rem; color: var(--muted); }
+.learning ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); gap: .75rem; }
+.learning li { padding: 1rem 1.2rem; border-radius: 1rem; background: var(--surface); box-shadow: 0 0 0 1px var(--line); color: var(--ink-2); font-size: .925rem; }
 
-@media (min-width: 800px) {
-  .role { grid-template-columns: 11rem minmax(0, 1fr); }
-  .when { flex-direction: column; }
-  .learning { grid-template-columns: 11rem minmax(0, 1fr); gap: 3rem; }
+@media (max-width: 640px) {
+  /* Compact time scale: the chart always fits, details live in the cards below. */
+  .yearFull, .barMeta, .barName i { display: none; }
+  .yearShort { display: inline; }
+  .bar a { padding-inline: .55rem; border-radius: .7rem; }
+  .barName { font-size: .8rem; }
+  .bar::after { left: .55rem; }
+  .lane { height: 3.8rem; }
+  .cardHead { grid-template-columns: auto minmax(0, 1fr); }
+  .period { grid-column: 1 / -1; justify-items: start; grid-auto-flow: column; justify-content: start; gap: .75rem; }
+  .role { padding-left: 2.5rem; }
+  .rail { left: .75rem; }
+  .dot { left: calc(.75rem - .5rem + 1px); }
+  .next { padding-left: 2.5rem; }
+  .next::before { left: .75rem; }
+  .nextDot { left: calc(.75rem - .5rem + 1px); }
 }

@@ -5,7 +5,7 @@
 - 3D: **CSS 3D transforms** for the laptop (decision 2026-10-26). The screen is real HTML, so it stays sharp, needs no WebGL fallback and ships no Three.js payload. Reintroduce Three.js/R3F only for content that genuinely needs a 3D renderer.
 - Scroll/cinematic animation: **GSAP + ScrollTrigger**. Prefer one authoritative scroll timeline rather than overlapping competing animation systems.
 - Styling: **CSS Modules + CSS custom properties**; global design tokens for spacing, typography, colors and motion. Light mode first.
-- AI: **OpenAI API** via a Next.js server route; never call the model directly from the browser with a secret API key. Use the supported official SDK and a cost-conscious small model configurable via environment variable.
+- AI: **Anthropic Claude API** (owner decision 2026-10-27, replacing the original OpenAI plan) via a Next.js server route (`app/api/assistant`) and the official `@anthropic-ai/sdk`; never call the model directly from the browser with a secret API key. The model is configurable via `ANTHROPIC_MODEL`.
 - Content: local typed TS/JSON or MDX for static content; no CMS/database required for v1.
 - Testing: lean setup, avoid unnecessary dependencies. Add tests where they protect core behavior; not blanket test generation.
 
@@ -33,7 +33,7 @@
 - Server route accepts a bounded conversation and returns a response grounded in an explicitly approved public-profile knowledge base.
 - Keep model instructions server-side. Include explicit guidance to say 'I don't know' when a requested detail is absent.
 - Limit input size, history, output tokens and requests per client; add basic rate limiting / abuse controls before public deployment. Do not rely on a client-side counter for security.
-- Use environment variables such as `OPENAI_API_KEY` and `OPENAI_MODEL`, documented in `.env.example` with no real secrets.
+- Use environment variables `ANTHROPIC_API_KEY` and `ANTHROPIC_MODEL`, documented in `.env.example` with no real secrets.
 - Do not invent an email address, phone number, LinkedIn URL, employers, outcomes or achievements. Use placeholders until approved values are supplied.
 - Provide graceful failure messaging and a non-AI contact fallback.
 - Do not log private user chat content by default. Explain that messages are sent to an AI provider.

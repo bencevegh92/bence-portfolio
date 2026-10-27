@@ -1,5 +1,6 @@
 // Planned fictional demos. Each is original work inspired by a real experience
-// domain; none reproduces an employer project.
+// domain; none reproduces an employer project. Not rendered for now (removed
+// before beta); the accent/icon types are shared with the experience timeline.
 
 export type Project = {
   slug: string;
@@ -23,7 +24,7 @@ export const projects: Project[] = [
     slug: "multimedia-platform",
     title: "Media platform",
     concept: "A content portal with galleries, rich media and an editorial workflow behind it.",
-    inspiredBy: "Informed by four years on large-scale media portals and CMS applications.",
+    inspiredBy: "Informed by my work on large-scale media portals and CMS applications.",
     accent: "lilac",
     icon: "media",
   },

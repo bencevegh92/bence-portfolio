@@ -1,0 +1,79 @@
+.card {
+  position: relative; margin-top: clamp(3rem, 7vw, 5rem);
+  padding: clamp(1.25rem, 3vw, 2rem);
+  border-radius: 1.75rem; background: var(--surface); box-shadow: 0 0 0 1px var(--line), 0 30px 60px -44px #1d2a4a59;
+}
+.head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 1rem 2rem; margin-bottom: 1.25rem; }
+.head h3 { font: 600 clamp(1.3rem, 2.2vw, 1.6rem)/1.2 var(--font-display); letter-spacing: -.02em; }
+.head p { margin-top: .3rem; color: var(--muted); font-size: .95rem; }
+.buttons { display: flex; flex-wrap: wrap; gap: .5rem; }
+.play {
+  display: inline-flex; align-items: center; gap: .55rem; min-height: 2.75rem; padding: 0 1.1rem 0 .7rem;
+  border: 0; border-radius: 999px; cursor: pointer;
+  background: var(--paper); color: var(--ink); box-shadow: inset 0 0 0 1px var(--line);
+  font-size: .9rem; font-weight: 600;
+  transition: background-color .2s, color .2s, box-shadow .2s;
+}
+.play:hover { background: var(--accent-soft); box-shadow: inset 0 0 0 1px #b9c6f5; }
+.play[data-active] { background: var(--ink); color: white; box-shadow: none; }
+.icon { display: grid; place-items: center; width: 1.7rem; height: 1.7rem; border-radius: 50%; background: var(--ink); color: white; }
+.play[data-active] .icon { background: var(--accent); }
+.playIcon { width: .8rem; fill: currentColor; }
+.eq { display: none; align-items: flex-end; gap: 2px; height: .8rem; }
+.eq i { width: 3px; height: 100%; border-radius: 2px; background: currentColor; transform-origin: bottom; }
+.play[data-active] .playIcon { display: none; }
+.play[data-active] .eq { display: flex; }
+
+.body { position: relative; display: grid; gap: 1.25rem; align-items: center; }
+@media (min-width: 900px) {
+  .body { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 2rem; }
+}
+
+/* ---------- Score ---------- */
+.staff { display: block; width: 100%; height: auto; overflow: visible; }
+.line { stroke: var(--ink); stroke-opacity: .28; stroke-width: 1.4; }
+.time { font: 700 38px/1 var(--font-display); fill: var(--ink); text-anchor: middle; }
+.note { color: #12151b; }
+.head { fill: currentColor; }
+.hollow { fill: var(--surface); stroke: currentColor; stroke-width: 2.6; }
+.stem { stroke: currentColor; stroke-width: 2; }
+.beam { stroke: var(--ink); stroke-width: 5.5; }
+.bar { stroke: var(--ink); stroke-width: 1.6; }
+.barThick { fill: var(--ink); }
+.playhead { stroke: var(--accent); stroke-width: 2.4; stroke-linecap: round; }
+.glow { fill: var(--accent); opacity: .14; }
+.ripple { fill: none; stroke: var(--accent); stroke-width: 2; }
+
+/* ---------- Editor ---------- */
+.editor { overflow: hidden; border-radius: 1.1rem; background: #161a24; box-shadow: 0 24px 48px -28px #0b0f1a99; }
+.editorBar { display: flex; align-items: center; gap: .4rem; padding: .7rem 1rem; border-bottom: 1px solid #ffffff12; }
+.editorBar i { width: .55rem; height: .55rem; border-radius: 50%; background: #3a4150; }
+.editorBar span { margin-left: .6rem; font: 400 .8rem var(--font-mono); color: #8b93a7; }
+.editor pre { margin: 0; padding: 1rem 1.25rem 1.2rem; overflow: hidden; font: 400 .95rem/1.8 var(--font-mono); color: #8b93a7; }
+.codeLine { display: block; white-space: pre; }
+.codeLine > span { display: inline-block; }
+.kw { color: #b9b0ff; }
+.name { color: #e6e9f2; }
+.op { color: #8b93a7; }
+.fn { color: #9db4ff; }
+.comment { color: #6f7890; font-style: italic; }
+.editor [data-caret]::after {
+  content: ""; display: inline-block; width: .5em; height: 1.1em; margin-left: 3px; vertical-align: -.2em;
+  background: #9db4ff; animation: caret 1s steps(1) infinite;
+}
+@keyframes caret { 50% { opacity: 0; } }
+
+/* Sparks fly in page space across both panels. */
+.overlay { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+.spark { fill: var(--accent); filter: drop-shadow(0 0 6px #3152dc) drop-shadow(0 0 12px #7c72dc99); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .play[data-active] .eq i { animation: eq .8s ease-in-out infinite; }
+  .play[data-active] .eq i:nth-child(2) { animation-delay: -.3s; }
+  .play[data-active] .eq i:nth-child(3) { animation-delay: -.55s; }
+}
+@keyframes eq { 0%, 100% { transform: scaleY(.3); } 50% { transform: scaleY(1); } }
+
+@media (max-width: 520px) {
+  .editor pre { font-size: .8rem; padding-inline: 1rem; }
+}

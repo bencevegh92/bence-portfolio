@@ -1,32 +1,44 @@
-/* ---------- Static layout: no JS, small screens, reduced motion ---------- */
+/* Hero + walkthrough: one ordinary section, never pinned or scroll-driven.
+   Two rows share one column grid: intro | laptop, then the "How I work" strip
+   whose text sits under the intro and whose tabs sit under the laptop. */
 .story { padding-top: var(--header-h); }
-.frame { padding-block: clamp(2.5rem, 6vw, 5rem) 0; }
-.grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  grid-template-areas: "intro" "visual" "steps";
-  column-gap: clamp(2rem, 5vw, 4.5rem);
+.player {
+  --cols: minmax(0, 1fr);
+  --gap: clamp(2rem, 5vw, 4.5rem);
+  display: grid; gap: clamp(1.25rem, 2.5vw, 1.75rem);
+  padding-block: clamp(1.25rem, 2.5vw, 2rem) clamp(3rem, 6vw, 5rem);
 }
-.copy { display: contents; }
-.intro { grid-area: intro; align-self: center; }
-.visual { grid-area: visual; width: min(100%, 40rem); justify-self: center; margin-block: 1rem 2rem; }
-.steps { grid-area: steps; padding-block: clamp(3rem, 8vw, 6rem); border-top: 1px solid var(--line); }
-.rail { display: none; }
+@media (min-width: 1024px) {
+  .player { --cols: minmax(0, 5fr) minmax(0, 6fr); }
+  /* Repeated in the contact section; keeps hero + strip within one screen. */
+  .location { display: none; }
+}
+.hero { display: grid; grid-template-columns: var(--cols); gap: var(--gap); align-items: center; }
 
+/* ---------- Introduction (stable: never animated by the walkthrough) ---------- */
 .identity { display: flex; flex-wrap: wrap; align-items: baseline; gap: .25rem .75rem; margin-bottom: 1.5rem; font-size: 1.05rem; }
 .identity strong { font-weight: 600; }
 .identity span { color: var(--muted); }
-.headline {
-  font: 600 clamp(2.9rem, 6.4vw, 5.6rem)/.96 var(--font-display);
-  font-variation-settings: "wdth" 84, "opsz" 96;
-  letter-spacing: -.045em;
-  max-width: 11ch;
+/* Availability badge: the one status a recruiter checks first. */
+.available {
+  display: inline-flex; align-items: center; gap: .45rem; margin-left: .25rem;
+  padding: .2rem .7rem .2rem .55rem; border-radius: 999px;
+  background: var(--mint-soft); color: #2c6c54; font-size: .825rem; font-weight: 600; text-decoration: none;
 }
-.summary { margin-top: 1.6rem; max-width: 34rem; font-size: 1.125rem; color: var(--ink-2); }
-.proof { list-style: none; padding: 0; margin: 1.6rem 0 0; display: grid; gap: .55rem; max-width: 34rem; color: var(--muted); font-size: .95rem; }
+.available::before { content: ""; width: .5rem; height: .5rem; border-radius: 50%; background: #3fb984; box-shadow: 0 0 0 3px #3fb98433; }
+.available:hover { background: color-mix(in srgb, var(--mint) 22%, white); }
+.headline {
+  font: 600 clamp(2.5rem, 4.6vw, 4.1rem)/1.04 var(--font-display);
+  letter-spacing: -.04em;
+  max-width: 13ch;
+}
+.summary { margin-top: 1.25rem; max-width: 34rem; font-size: 1.1rem; color: var(--ink-2); }
+.proof { list-style: none; padding: 0; margin: 1.25rem 0 0; display: grid; gap: .45rem; max-width: 34rem; color: var(--muted); font-size: .95rem; }
 .proof li { display: grid; grid-template-columns: .9rem 1fr; gap: .6rem; }
 .proof li::before { content: ""; width: .45rem; height: .45rem; margin-top: .55em; border-radius: 50%; background: var(--accent); }
-.actions { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 2rem; }
+.actions { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem; margin-top: 1.5rem; }
+.cvLink { padding: .6rem .25rem; font-size: .95rem; font-weight: 500; }
+.cvLink:hover { color: var(--accent); }
 .location { margin-top: 1.25rem; font-size: .875rem; color: var(--muted); }
 
 /* One orchestrated load moment: copy rises while the laptop lid opens. */
@@ -36,86 +48,91 @@
 .intro > :nth-child(n + 4) { animation-delay: .24s; }
 @keyframes rise { from { opacity: 0; transform: translateY(18px); } }
 
-.stepsTitle { margin-bottom: 2rem; }
-.steps ol { list-style: none; margin: 0; padding: 0; }
-.step { display: grid; gap: 1.5rem; padding-block: 2rem; border-top: 1px solid var(--line); }
-.stepText { display: grid; gap: .75rem; align-content: start; }
-.stepNumber { font-size: .875rem; font-weight: 600; color: var(--accent); font-variant-numeric: tabular-nums; }
-.step h3 { font: 600 clamp(1.5rem, 2.6vw, 2.1rem)/1.1 var(--font-display); letter-spacing: -.025em; }
-.step p { color: var(--muted); max-width: 32rem; }
-.tags { list-style: none; padding: 0; margin: .25rem 0 0; display: flex; flex-wrap: wrap; gap: .4rem; }
-.tags li { padding: .2rem .65rem; border-radius: 999px; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); font-size: .8rem; color: var(--ink-2); }
-.stepScreen { border-radius: .8rem; overflow: hidden; box-shadow: 0 0 0 1px var(--line), 0 18px 40px -18px #1d2a4a40; }
-.disclosure { margin-top: 2rem; font-size: .875rem; color: var(--muted); }
-/* In the static layout the laptop shows the finished product. */
-.visual [data-screen-state]:not([data-screen-state="6"]) { opacity: 0; visibility: hidden; }
+/* ---------- Walkthrough ---------- */
+.visual { width: min(100%, 32rem); justify-self: center; }
 
-@media (min-width: 800px) {
-  .step { grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: 3rem; align-items: center; }
+.strip {
+  position: relative; display: grid; grid-template-columns: var(--cols); gap: 1.25rem var(--gap); align-items: center;
+  padding: clamp(1.1rem, 2vw, 1.4rem) clamp(1.25rem, 2.5vw, 2rem);
+  border-radius: 1.5rem; background: var(--surface); box-shadow: 0 0 0 1px var(--line);
 }
-@media (min-width: 960px) {
-  .grid { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); grid-template-areas: "intro visual" "steps steps"; }
-  .visual { margin: 0; width: 100%; }
-}
+.stripText { display: grid; gap: .5rem; align-content: start; }
+.stripControls { display: grid; gap: .75rem; }
+.controlsRow { display: flex; align-items: center; gap: .6rem; }
+.controlsRow .tabs { flex: 1; }
+.panelTitle { font: 600 .9rem/1.3 var(--font-sans); letter-spacing: 0; color: var(--accent); }
 
-/* ---------- Enhanced: sticky, scroll-scrubbed story (see story-motion.tsx) ---------- */
-@media (min-width: 1024px) and (min-height: 640px) and (prefers-reduced-motion: no-preference) {
-  :global(html[data-js]) .story { height: calc(100svh + 480svh); padding-top: 0; }
-  :global(html[data-js]) .frame {
-    position: sticky; top: 0; height: 100svh;
-    display: flex; align-items: center;
-    padding: var(--header-h) 0 0;
-    overflow: clip;
-  }
-  :global(html[data-js]) .grid {
-    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
-    grid-template-areas: "copy visual";
-    align-items: center;
-  }
-  :global(html[data-js]) .copy {
-    grid-area: copy;
-    display: grid;
-    grid-template-rows: 1fr auto;
-    height: min(40rem, calc(100svh - var(--header-h) - 3rem));
-  }
-  :global(html[data-js]) .intro,
-  :global(html[data-js]) .steps { grid-area: 1 / 1; align-self: center; }
-  :global(html[data-js]) .visual { grid-area: visual; width: 100%; margin: 0; }
-  :global(html[data-js]) .headline { font-size: clamp(3rem, 5vw, 4.8rem); }
-  :global(html[data-js]) .summary { margin-top: 1.25rem; font-size: 1.05rem; }
-  :global(html[data-js]) .proof { margin-top: 1.25rem; gap: .35rem; font-size: .9rem; }
-  :global(html[data-js]) .actions { margin-top: 1.5rem; }
-  /* Location is repeated in the contact section; keep the sticky intro compact. */
-  :global(html[data-js]) .location { display: none; }
-
-  :global(html[data-js]) .steps { padding: 0; border: 0; }
-  :global(html[data-js]) .stepsTitle {
-    margin-bottom: 1.25rem;
-    font: 500 1rem/1.4 var(--font-sans); letter-spacing: 0; color: var(--muted);
-    opacity: 0;
-  }
-  :global(html[data-js]) .steps ol { display: grid; }
-  :global(html[data-js]) .step { grid-area: 1 / 1; display: block; padding: 0; border: 0; opacity: 0; }
-  :global(html[data-js]) .stepText { gap: 1rem; }
-  :global(html[data-js]) .step h3 { font-size: clamp(2.4rem, 3.8vw, 3.6rem); line-height: 1; letter-spacing: -.04em; }
-  :global(html[data-js]) .step p { font-size: 1.1rem; }
-  :global(html[data-js]) .stepScreen { display: none; }
-  :global(html[data-js]) .disclosure { margin-top: 1.5rem; opacity: 0; }
-
-  :global(html[data-js]) .rail { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.5rem; grid-row: 2; margin-top: 2rem; }
-  /* Scroll story starts at the idea, not the finished product. */
-  :global(html[data-js]) .visual [data-screen-state]:not([data-screen-state="0"]) { opacity: 0; visibility: hidden; }
-  :global(html[data-js]) .visual [data-screen-state="0"] { opacity: 1; visibility: visible; }
-}
-.rail ol { list-style: none; margin: 0; padding: 0; display: flex; gap: .25rem; }
-.rail button {
-  min-width: 2.75rem; min-height: 2.75rem; padding: 0 .6rem;
+/* Round icon button; its label is announced, not shown. */
+.toggle {
+  flex: none; display: inline-grid; place-items: center; width: 2.75rem; height: 2.75rem; padding: 0;
   border: 0; border-radius: 999px; background: transparent; cursor: pointer;
-  color: var(--muted); font-size: .8rem; font-variant-numeric: tabular-nums;
-  transition: background-color .2s, color .2s;
+  color: var(--ink-2); font-size: .85rem; font-weight: 500;
+  box-shadow: inset 0 0 0 1px var(--line); transition: background-color .2s;
 }
-.rail button:hover { background: var(--surface); color: var(--ink); }
-.rail button[data-done] { color: var(--ink-2); }
-.rail button[aria-current] { background: var(--ink); color: white; }
-.rail a { font-size: .875rem; color: var(--muted); }
-.rail a:hover { color: var(--ink); }
+.toggle:hover { background: var(--surface); }
+.toggle svg { width: 1.05rem; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.toggle [data-icon] { display: none; }
+.player[data-autoplay="playing"] .toggle [data-icon="pause"],
+.player[data-autoplay="paused"] .toggle [data-icon="play"],
+.player[data-autoplay="done"] .toggle [data-icon="replay"] { display: inline; }
+.toggle [data-icon="play"] { fill: currentColor; stroke: none; }
+
+.tabs {
+  display: flex; flex-wrap: wrap; gap: .25rem; padding: .3rem;
+  border-radius: 1.1rem; background: var(--paper); box-shadow: inset 0 0 0 1px var(--line);
+}
+.tab {
+  position: relative; flex: 1 1 auto; min-height: 2.6rem; padding: 0 .6rem; overflow: hidden;
+  border: 0; border-radius: .8rem; background: transparent; cursor: pointer;
+  color: var(--muted); font-size: .85rem; font-weight: 500;
+  transition: background-color .25s, color .25s;
+}
+.tab:hover { color: var(--ink); background: var(--surface); }
+.tab[aria-selected="true"] { background: var(--ink); color: white; }
+.progress { position: absolute; left: .7rem; right: .7rem; bottom: .3rem; height: 2px; border-radius: 2px; overflow: hidden; background: #ffffff33; opacity: 0; }
+.progress::after { content: ""; position: absolute; inset: 0; background: white; transform: scaleX(0); transform-origin: left; }
+
+/* Reserve room for the longest stage so the strip never changes height. */
+.detail { display: grid; gap: .4rem; min-height: 6.25rem; align-content: start; }
+.detail h3 { font: 600 clamp(1.3rem, 2vw, 1.55rem)/1.2 var(--font-display); letter-spacing: -.025em; }
+.detail p { color: var(--ink-2); max-width: 36rem; }
+.disclosure { font-size: .825rem; color: var(--muted); text-align: right; }
+
+/* With JS: one stage at a time, the laptop starts at the idea. Without JS:
+   every stage is listed and the laptop shows the finished product. */
+:global(html[data-js]) .detail:not([data-active]) { display: none; }
+:global(html[data-js]) .visual [data-screen-state]:not([data-screen-state="0"]) { opacity: 0; visibility: hidden; }
+:global(html:not([data-js])) .visual [data-screen-state]:not([data-screen-state="6"]) { opacity: 0; visibility: hidden; }
+:global(html:not([data-js])) .tabs,
+:global(html:not([data-js])) .toggle { display: none; }
+:global(html:not([data-js])) .detail { min-height: 0; padding-top: .75rem; border-top: 1px solid var(--line); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .detail[data-active] { animation: stageIn .45s var(--ease-out) both; }
+  /* Autoplay clock: the selected tab's bar fills for one dwell period. */
+  .player[data-autoplay="playing"] .tab[aria-selected="true"] .progress { opacity: 1; }
+  .player[data-autoplay="playing"] .tab[aria-selected="true"] .progress::after { animation: dwell 4.2s linear forwards; }
+  /* Must out-rank the rule above: its animation shorthand resets play-state. */
+  .player[data-autoplay="playing"][data-hold] .tab[aria-selected="true"] .progress::after { animation-play-state: paused; }
+}
+/* No autoplay with reduced motion, so the control would do nothing. */
+@media (prefers-reduced-motion: reduce) {
+  .toggle { display: none; }
+}
+@keyframes stageIn { from { opacity: 0; transform: translateY(8px); } }
+@keyframes dwell { to { transform: scaleX(1); } }
+
+/* Narrow desktop: keep all seven tabs on one row. */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .tab { padding-inline: .4rem; font-size: .78rem; }
+}
+/* Stacked (below 1024px): intro, laptop, then label, stage text and tabs. */
+@media (max-width: 1023px) {
+  .disclosure { text-align: left; }
+  /* The tabs get the full width; the control moves beside the label. */
+  .toggle { position: absolute; top: .85rem; right: .85rem; }
+}
+@media (max-width: 520px) {
+  .visual { width: 88%; } /* room for the 3D projection at the edges */
+  .tab { padding-inline: .5rem; font-size: .8rem; }
+}

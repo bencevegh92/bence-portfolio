@@ -140,16 +140,6 @@ const states = [
   <Board key="live" variant="live" />,
 ];
 
-/** One stage of the fictional app inside a browser frame. */
-export function Screen({ stage }: { stage: number }) {
-  return (
-    <div className={styles.screen} aria-hidden="true">
-      <Chrome />
-      <div className={styles.viewport}><div className={styles.state}>{states[stage]}</div></div>
-    </div>
-  );
-}
-
 /** Every stage stacked, for the scroll-driven laptop. GSAP crossfades them. */
 export function ScreenStack() {
   return (

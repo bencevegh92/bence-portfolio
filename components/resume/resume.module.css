@@ -1,0 +1,29 @@
+.page {
+  display: grid; gap: 2.75rem; max-width: 48rem;
+  padding-block: calc(var(--header-h) + clamp(2.5rem, 7vw, 5rem)) 5rem;
+}
+.page h2 {
+  margin-bottom: 1rem; padding-bottom: .5rem; border-bottom: 1px solid var(--line);
+  font: 600 1.35rem/1.2 var(--font-display); letter-spacing: -.01em;
+}
+.page ul { margin: .5rem 0 0; padding-left: 1.1rem; display: grid; gap: .35rem; color: var(--ink-2); }
+.head { display: grid; gap: .4rem; }
+.head h1 {
+  font: 600 clamp(2.2rem, 4.5vw, 3.2rem)/1.05 var(--font-display);
+  letter-spacing: -.035em;
+}
+.role { font-size: 1.15rem; font-weight: 500; }
+.contact.contact { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: .5rem 1.5rem; margin-top: .75rem; }
+.job + .job { margin-top: 1.75rem; }
+.job h3 { font-size: 1.1rem; }
+.meta { margin-top: .25rem; color: var(--muted); font-size: .925rem; }
+.skills { margin: 0; display: grid; gap: .75rem; }
+.skills div { display: grid; gap: .15rem 2rem; }
+.skills dt { font-weight: 600; }
+.skills dd { margin: 0; color: var(--ink-2); }
+@media (min-width: 700px) {
+  .skills div { grid-template-columns: 11rem 1fr; }
+}
+@media print {
+  .page { padding-top: 0; }
+}

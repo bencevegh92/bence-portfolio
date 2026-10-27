@@ -1,9 +1,10 @@
 import { Footer, Header } from "@/components/layout/header";
 import { Story } from "@/components/story/story";
-import { WorkSection } from "@/components/work/work-section";
 import { Experience } from "@/components/experience/experience";
 import { Expertise } from "@/components/expertise/expertise";
+import { About } from "@/components/about/about";
 import { Contact } from "@/components/contact/contact";
+import { StructuredData } from "@/components/layout/structured-data";
 
 export default function Home() {
   return (
@@ -12,12 +13,13 @@ export default function Home() {
       <Header />
       <main id="main" tabIndex={-1}>
         <Story />
-        <WorkSection />
         <Experience />
         <Expertise />
+        <About />
         <Contact />
       </main>
       <Footer />
+      <StructuredData />
     </>
   );
 }
