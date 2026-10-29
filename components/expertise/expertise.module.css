@@ -91,14 +91,15 @@
 .merged { justify-self: start; display: inline-flex; align-items: center; gap: .45em; padding: .3em .75em; border-radius: 999px; background: var(--ink); color: white; font-size: .85em; font-weight: 500; }
 .merged::before { content: ""; width: .5em; height: .5em; border-radius: 50%; background: var(--lilac); }
 
-/* ---------- Toolkit ---------- */
+/* ---------- Toolkit (own section, right below the hero) ---------- */
+.toolkitSection { padding-bottom: clamp(4.5rem, 10vw, 8rem); }
 .toolkit {
-  margin-top: 1rem; padding: clamp(1.5rem, 3.5vw, 2.5rem); border-radius: 1.5rem;
+  padding: clamp(1.5rem, 3.5vw, 2.5rem); border-radius: 1.5rem;
   background: radial-gradient(70% 120% at 0% 0%, var(--accent-soft), transparent 60%), var(--surface);
   box-shadow: 0 0 0 1px var(--line);
 }
 .toolkitHead { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: .5rem 2rem; margin-bottom: 1.75rem; }
-.toolkitHead h3 { font: 600 clamp(1.6rem, 2.6vw, 2.1rem)/1.1 var(--font-display); letter-spacing: -.03em; }
+.toolkitHead h2 { font: 600 clamp(1.6rem, 2.6vw, 2.1rem)/1.1 var(--font-display); letter-spacing: -.03em; }
 .toolkitHead p { color: var(--muted); }
 
 .toolIcon { display: grid; place-items: center; flex: none; width: 1.9rem; height: 1.9rem; padding: .38rem; border-radius: 50%; background: color-mix(in srgb, var(--brand) 13%, white); }

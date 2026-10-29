@@ -108,37 +108,46 @@ export function Expertise() {
           );
         })}
       </InView>
-
-      <InView className={styles.toolkit}>
-        <div className={styles.toolkitHead}>
-          <h3>Toolkit</h3>
-          <p>What I reach for day to day, grouped by what it’s for.</p>
-        </div>
-        <ul className={styles.featured}>
-          {featuredSkills.map((skill, index) => (
-            <li key={skill.name} style={{ "--brand": toolColor(skill.name), "--i": index } as CSSProperties}>
-              <ToolIcon name={skill.name} className={styles.toolIcon} />
-              <strong>{skill.name}</strong>
-              <p>{skill.note}</p>
-            </li>
-          ))}
-        </ul>
-        <div className={styles.groups}>
-          {skillGroups.map((group, groupIndex) => (
-            <div key={group.name} className={styles.group}>
-              <h4>{group.name}</h4>
-              <ul>
-                {group.items.filter(item => !featured.has(item)).map((item, index) => (
-                  <li key={item} style={{ "--brand": toolColor(item), "--i": 3 + groupIndex * 3 + index } as CSSProperties}>
-                    <ToolIcon name={item} className={styles.toolIcon} />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-      </InView>
     </Section>
+  );
+}
+
+/** Tools at a glance, right after the process walkthrough in the hero. */
+export function Toolkit() {
+  return (
+    <section id="toolkit" className={styles.toolkitSection} aria-labelledby="toolkit-title">
+      <div className="page">
+        <InView className={styles.toolkit}>
+          <div className={styles.toolkitHead}>
+            <h2 id="toolkit-title">Toolkit</h2>
+            <p>What I reach for day to day, grouped by what it’s for.</p>
+          </div>
+          <ul className={styles.featured}>
+            {featuredSkills.map((skill, index) => (
+              <li key={skill.name} style={{ "--brand": toolColor(skill.name), "--i": index } as CSSProperties}>
+                <ToolIcon name={skill.name} className={styles.toolIcon} />
+                <strong>{skill.name}</strong>
+                <p>{skill.note}</p>
+              </li>
+            ))}
+          </ul>
+          <div className={styles.groups}>
+            {skillGroups.map((group, groupIndex) => (
+              <div key={group.name} className={styles.group}>
+                <h4>{group.name}</h4>
+                <ul>
+                  {group.items.filter(item => !featured.has(item)).map((item, index) => (
+                    <li key={item} style={{ "--brand": toolColor(item), "--i": 3 + groupIndex * 3 + index } as CSSProperties}>
+                      <ToolIcon name={item} className={styles.toolIcon} />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </InView>
+      </div>
+    </section>
   );
 }
