@@ -52,14 +52,14 @@
 .visual { width: min(100%, 32rem); justify-self: center; }
 
 .strip {
-  position: relative; display: grid; grid-template-columns: var(--cols); gap: 1.25rem var(--gap); align-items: center;
+  position: relative; display: grid; grid-template-columns: var(--cols); gap: 1.25rem var(--gap); align-items: center; min-height: 12rem;
   padding: clamp(1.1rem, 2vw, 1.4rem) clamp(1.25rem, 2.5vw, 2rem);
   border-radius: 1.5rem; background: var(--surface); box-shadow: 0 0 0 1px var(--line);
 }
 .stripText { display: grid; gap: .5rem; align-content: start; }
-.stripControls { display: grid; gap: .75rem; }
+.stripControls { display: grid; grid-template-columns: minmax(0, 1fr); gap: .75rem; min-width: 0; }
 .controlsRow { display: flex; align-items: center; gap: .6rem; }
-.controlsRow .tabs { flex: 1; }
+.controlsRow .tabs { flex: 1; min-width: 0; }
 .panelTitle { font: 600 .9rem/1.3 var(--font-sans); letter-spacing: 0; color: var(--accent); }
 
 /* Round icon button; its label is announced, not shown. */
@@ -92,20 +92,22 @@
 .progress { position: absolute; left: .7rem; right: .7rem; bottom: .3rem; height: 2px; border-radius: 2px; overflow: hidden; background: #ffffff33; opacity: 0; }
 .progress::after { content: ""; position: absolute; inset: 0; background: white; transform: scaleX(0); transform-origin: left; }
 
-/* Reserve room for the longest stage so the strip never changes height. */
-.detail { display: grid; gap: .4rem; min-height: 6.25rem; align-content: start; }
+.detail { display: grid; gap: .4rem; align-content: start; }
 .detail h3 { font: 600 clamp(1.3rem, 2vw, 1.55rem)/1.2 var(--font-display); letter-spacing: -.025em; }
 .detail p { color: var(--ink-2); max-width: 36rem; }
 .disclosure { font-size: .825rem; color: var(--muted); text-align: right; }
 
 /* With JS: one stage at a time, the laptop starts at the idea. Without JS:
    every stage is listed and the laptop shows the finished product. */
-:global(html[data-js]) .detail:not([data-active]) { display: none; }
+/* All stages share one grid cell, so the strip is as tall as the longest
+   stage at every width and never jumps; only the active one is visible. */
+:global(html[data-js]) .detail { grid-area: 2 / 1; }
+:global(html[data-js]) .detail:not([data-active]) { visibility: hidden; }
 :global(html[data-js]) .visual [data-screen-state]:not([data-screen-state="0"]) { opacity: 0; visibility: hidden; }
 :global(html:not([data-js])) .visual [data-screen-state]:not([data-screen-state="6"]) { opacity: 0; visibility: hidden; }
 :global(html:not([data-js])) .tabs,
 :global(html:not([data-js])) .toggle { display: none; }
-:global(html:not([data-js])) .detail { min-height: 0; padding-top: .75rem; border-top: 1px solid var(--line); }
+:global(html:not([data-js])) .detail { padding-top: .75rem; border-top: 1px solid var(--line); }
 
 @media (prefers-reduced-motion: no-preference) {
   .detail[data-active] { animation: stageIn .45s var(--ease-out) both; }
@@ -131,8 +133,18 @@
   .disclosure { text-align: left; }
   /* The tabs get the full width; the control moves beside the label. */
   .toggle { position: absolute; top: .85rem; right: .85rem; }
+  .detail h3 { padding-right: 2.5rem; } /* clear of the toggle */
 }
 @media (max-width: 520px) {
   .visual { width: 88%; } /* room for the 3D projection at the edges */
-  .tab { padding-inline: .5rem; font-size: .8rem; }
+  /* One scrolling row instead of an uneven wrap; edges fade where it continues. */
+  .tabs {
+    --fade-start: 0rem; --fade-end: 0rem;
+    flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; overscroll-behavior-x: contain;
+    mask-image: linear-gradient(90deg, transparent, #000 var(--fade-start), #000 calc(100% - var(--fade-end)), transparent);
+  }
+  .tabs[data-more-start] { --fade-start: 1.5rem; }
+  .tabs[data-more-end] { --fade-end: 1.5rem; }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab { flex: none; padding-inline: .85rem; font-size: .8rem; }
 }
