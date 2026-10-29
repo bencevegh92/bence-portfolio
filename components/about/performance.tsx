@@ -24,6 +24,10 @@ type Instrument = "trumpet" | "piano";
 
 // ---- A tiny Web Audio synth: no samples, no dependencies ----
 function createSynth() {
+  // iOS treats Web Audio as "ambient" and mutes it with the ringer switch; an
+  // explicit play button should behave like a media player instead (Safari 17+).
+  const session = (navigator as Navigator & { audioSession?: { type: string } }).audioSession;
+  if (session) session.type = "playback";
   const context = new AudioContext();
   const master = context.createGain();
   master.gain.value = .2;
@@ -110,6 +114,7 @@ export function Performance() {
     let timeline: gsap.core.Timeline | undefined;
     let synth: ReturnType<typeof createSynth> | undefined;
     const sparks = new Set<gsap.core.Tween>();
+    let presses = 0; // drops a pending start when a newer performance replaced it
 
     const setCaret = (index: number) => tokens.forEach((token, i) => token.toggleAttribute("data-caret", i === index));
     const setPlaying = (instrument?: Instrument) => {
@@ -144,15 +149,21 @@ export function Performance() {
     };
 
     const perform = (instrument?: Instrument) => {
+      const take = ++presses;
       timeline?.kill();
       sparks.forEach(tween => tween.progress(1));
       synth?.stop();
 
       if (instrument) {
         synth ??= createSynth();
-        void synth.context.resume();
-        const start = synth.context.currentTime + .08;
-        melody.forEach(note => synth!.play(note.freq, start + note.start * BEAT, note.beats * BEAT * .92, instrument));
+        const { context } = synth;
+        // resume() must start inside the tap; schedule once the clock runs
+        // (iOS can take a moment to wake the audio output).
+        void context.resume().then(() => {
+          if (take !== presses) return;
+          const start = context.currentTime + .05;
+          melody.forEach(note => synth!.play(note.freq, start + note.start * BEAT, note.beats * BEAT * .92, instrument));
+        });
       }
       setPlaying(instrument);
 
@@ -197,6 +208,7 @@ export function Performance() {
     observer.observe(root);
 
     return () => {
+      presses++;
       observer.disconnect();
       root.removeEventListener("click", onClick);
       timeline?.kill();
