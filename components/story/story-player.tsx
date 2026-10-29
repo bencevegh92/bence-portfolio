@@ -82,6 +82,26 @@ export function StoryPlayer({ className, lastStage, children }: { className: str
       });
     };
 
+    // Narrow screens scroll the tab row sideways: keep the selected tab in
+    // view without scrollIntoView, which could also move the page.
+    const revealTab = (tab: HTMLElement) => {
+      const list = tab.parentElement!;
+      if (list.scrollWidth <= list.clientWidth) return;
+      const left = tab.offsetLeft - (list.clientWidth - tab.offsetWidth) / 2;
+      list.scrollTo({ left, behavior: reduce() ? "auto" : "smooth" });
+    };
+
+    // Fade only the edges of the tab row that have more tabs beyond them.
+    const tabList = tabs[0].parentElement!;
+    const markOverflow = () => {
+      const end = tabList.scrollWidth - tabList.clientWidth - tabList.scrollLeft;
+      tabList.toggleAttribute("data-more-start", tabList.scrollLeft > 1);
+      tabList.toggleAttribute("data-more-end", end > 1);
+    };
+    markOverflow();
+    tabList.addEventListener("scroll", markOverflow, { passive: true });
+    window.addEventListener("resize", markOverflow);
+
     const select = (target: number, { fromUser = false } = {}) => {
       if (target === current && !fromUser) return;
       current = target;
@@ -91,6 +111,7 @@ export function StoryPlayer({ className, lastStage, children }: { className: str
         tab.tabIndex = selected ? 0 : -1;
       });
       panels.forEach((panel, index) => panel.toggleAttribute("data-active", index === target));
+      revealTab(tabs[target]);
       showStage(target, reduce());
       if (fromUser) setAutoplay("paused");
       else if (target === lastStage) setAutoplay("done");
@@ -184,6 +205,8 @@ export function StoryPlayer({ className, lastStage, children }: { className: str
       document.removeEventListener("visibilitychange", onVisibility);
       root.removeEventListener("pointermove", tilt);
       root.removeEventListener("pointerleave", untilt);
+      tabList.removeEventListener("scroll", markOverflow);
+      window.removeEventListener("resize", markOverflow);
       ctx.revert();
       delete root.dataset.autoplay;
       root.removeAttribute("data-hold");
